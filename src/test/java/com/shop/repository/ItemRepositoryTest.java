@@ -63,4 +63,20 @@ class ItemRepositoryTest {
         }
     }
 
+    @Test
+    @DisplayName("가격 LessThan 테스트")
+    public void findByPriceLessThanTest() {
+        this.createItemList();
+
+        // 현재 DB에 저장된 가격이 10001~10010
+        List<Item> itemList = itemRepository.findByPriceLessThan(10005);
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+        // 현재 메서드를 실행하면
+        // 가격(price)가 10005보다 작은 4개의 상품을 콘솔에 출력하는 걸 확인할 수 있음.
+
+    }
+
+
 }
