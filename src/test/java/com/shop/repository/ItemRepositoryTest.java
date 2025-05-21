@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,23 +21,32 @@ class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository; // ItemRepository 사용을 위해 Bean을 주입
 
+    // 테스트 코드 실행 시 DB에 상품 데이터가 없어서 데이터 생성을 위해 10개의 상품을 저장하는 메서드 작성
     @Test // 테스트할 메서드 위에 선언해 해당 메서드를 테스트 대상으로 지정함
     @DisplayName("상품 저장 테스트") // junit5에 추가된 어노테이션. 테스트 코드 실행 시 @DisplayName에 지정한 테스트명 노출
-    public void createItemTest() {
+    public void createItemList() {
+        for(int i=1; i<=10; i++) {
+            Item item = new Item();
+            item.setItemNm("테스트 상품" + i);
+            item.setPrice(10000 + i);
+            item.setItemDetail("테스트 상품 상세 설명" + i);
+            item.setItemSellStatus(ItemSellStatus.SELL); // SELL: 현재 상품이 판매 중인 상태, SOLD_OUT: 상품이 품절된 상태
+            item.setStockNumber(100);
+            item.setRegDate(LocalDateTime.now());
+            item.setUpdateTime((LocalDateTime.now()));
 
-        Item item = new Item();
-        item.setItemNm("테스트 상품");
-        item.setPrice(10000);
-        item.setItemDetail("테스트 상품 상세 설명");
-        item.setItemSellStatus(ItemSellStatus.SELL); // SELL: 현재 상품이 판매 중인 상태, SOLD_OUT: 상품이 품절된 상태
-        item.setStockNumber(100);
-        item.setRegDate(LocalDateTime.now());
+            Item savedItem = itemRepository.save(item);
+        }
+    }
 
-        Item savedItem = itemRepository.save(item);
-        System.out.println(savedItem.toString());
-        // 메서드 코드 작성이 완료되면 해당 메서드명을 우클릭 -> Run [메서드명] 또는 Ctrl+Shift+F10을 통해 실행 가능.
-        // 콘솔에서 insert 문 확인~
-
+    @Test
+    @DisplayName("상품명 조회 테스트")
+    public void findByItemNmTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemNm("테스트 상품1");
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
     }
 
 }
