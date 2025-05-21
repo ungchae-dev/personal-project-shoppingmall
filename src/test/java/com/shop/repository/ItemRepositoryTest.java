@@ -49,4 +49,18 @@ class ItemRepositoryTest {
         }
     }
 
+    @Test
+    @DisplayName("상품명, 상품상세설명 or 테스트")
+    public void findByItemNmOrItemDetailTest() {
+        this.createItemList();
+
+        // 상품명이 "테스트 상품1" or "테스트 상품 상세 설명5" 이면
+        // 해당 상품을 itemList에 할당
+        // 테스트 코드 실행 후 2개 상품 출력문 확인
+        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("테스트 상품1", "테스트 상품 상세 설명5");
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
+
 }
