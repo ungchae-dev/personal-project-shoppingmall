@@ -70,12 +70,22 @@ class ItemRepositoryTest {
 
         // 현재 DB에 저장된 가격이 10001~10010
         List<Item> itemList = itemRepository.findByPriceLessThan(10005);
-        for(Item item : itemList) {
+        for (Item item : itemList) {
             System.out.println(item.toString());
         }
         // 현재 메서드를 실행하면
         // 가격(price)가 10005보다 작은 4개의 상품을 콘솔에 출력하는 걸 확인할 수 있음.
+    }
 
+    @Test
+    @DisplayName("가격 내림차순 조회 테스트")
+    public void findByPriceLessThanOrderByPriceDescTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(10005);
+        for (Item item : itemList) {
+            System.out.println(item.toString());
+        }
+        // 메서드 출력 결과 10005보다 작은 10004부터 10001까지 내림차순으로 출력하는 것을 확인할 수 있음.
     }
 
 
