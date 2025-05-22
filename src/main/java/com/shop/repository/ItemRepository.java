@@ -36,4 +36,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     // @Param 역할: 파라미터로 넘어온 값을 JPQL에 들어갈 변수로 지정해줄 수 있음.
     // itemDetail 변수를 "like % %" 에서 % 사이에 :[변수명]으로 값을 할당함.
 
+    @Query(value = "select * from item i where i.item_detail like %:itemDetail% order by i.price desc", nativeQuery = true)
+    List<Item> findByItemDetailByNative(@Param("itemDetail") String itemDetail);
+
 }
