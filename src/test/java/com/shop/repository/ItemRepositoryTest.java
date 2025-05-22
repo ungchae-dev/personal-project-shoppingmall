@@ -88,5 +88,14 @@ class ItemRepositoryTest {
         // 메서드 출력 결과 10005보다 작은 10004부터 10001까지 내림차순으로 출력하는 것을 확인할 수 있음.
     }
 
+    @Test
+    @DisplayName("@Query을 이용한 상품 조회 테스트")
+    public void findByItemDetailTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
+        for (Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
 
 }

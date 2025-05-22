@@ -31,7 +31,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByPriceLessThanOrderByPriceDesc(Integer price);
 
     // Item: 엔티티 클래스, Item 에서 데이터를 조회하는 쿼리
-    @Query("select * from Item i where i.itemDetail like %:itemDetail% order by i.price desc")
+    @Query("select i from Item i where i.itemDetail like %:itemDetail% order by i.price desc")
     List<Item> findByItemDetail(@Param("itemDetail") String itemDetail);
     // @Param 역할: 파라미터로 넘어온 값을 JPQL에 들어갈 변수로 지정해줄 수 있음.
     // itemDetail 변수를 "like % %" 에서 % 사이에 :[변수명]으로 값을 할당함.
