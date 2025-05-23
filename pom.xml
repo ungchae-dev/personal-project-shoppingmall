@@ -64,7 +64,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Querydsl 의존성 추가 -->
+		<!-- 1-1) Querydsl 의존성 추가 -->
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
@@ -93,6 +93,7 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -105,6 +106,27 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- 1-2) 엔티티를 기반으로 접두사(prefix)로 'Q'가 붙는 클래스들을 자동 생성하는 플러그인 추가
+			ex) item 테이블 => 자동으로 Qitem.java 클래스가 생성되는 식
+			Querydsl을 통해 쿼리 생성 시 Qdomain 객체를 사용 -->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
