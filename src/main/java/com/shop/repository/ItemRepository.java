@@ -36,7 +36,27 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     // @Param 역할: 파라미터로 넘어온 값을 JPQL에 들어갈 변수로 지정해줄 수 있음.
     // itemDetail 변수를 "like % %" 에서 % 사이에 :[변수명]으로 값을 할당함.
 
+    // Item: 엔티티 클래스, Item 에서 데이터를 조회하는 쿼리
+    //@Query("select i from Item i wheere i.itemDetail like %:itemDetail% order by i.price desc")
+    //List<Item> findByItemDetail(@Param("itemDetail") String itemDetail);
+    // @Query의 "" 내부에 where 대신 wheere라고 오타를 일부러 삽입해본 코드.
+    // 이 상태로 애플리케이션을 실행하면 로딩 시점에 파싱 후 에러를 잡아준다.
+    // 이 때 도움을 주는 게 Querydsl이다.
+
+    // Querydsl은 JPQL을 코드로 작성할 수 있게 도와주는 빌더 API.
+    // Querydsl의 장점 (4)
+    // ※ (1) 고정된 SQL문이 아닌 조건에 맞게 동적으로 쿼리를 생성
+    // (2) 비슷한 쿼리 재사용 가능 및 제약 조건 조립 및 가독성 향상
+    // (3) 문자열이 아닌 자바 소스코드로 작성하므로 컴파일 시점에 오류 발견 가능
+    // (4) IDE의 도움을 받아 자동 완성 기능을 이용할 수 있어서 생산성 향상 쌉가능
+
+    // Querydsl을 사용하기 위한 설정 추가
+    // pom.xml 파일의 <dependencies> 태그 내부에 의존성 추가
+
     @Query(value = "select * from item i where i.item_detail like %:itemDetail% order by i.price desc", nativeQuery = true)
     List<Item> findByItemDetailByNative(@Param("itemDetail") String itemDetail);
+
+
+
 
 }
